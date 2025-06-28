@@ -9,9 +9,12 @@ def classify_iris():
     model = KNeighborsClassifier(n_neighbors=3)
     model.fit(X, y)
     predictions = model.predict(X)
-    print("Confusion Matrix:\n", confusion_matrix(y, predictions))
-    print("Accuracy:", accuracy_score(y, predictions))
-    return model.predict(iris.data[:1])
+    return {
+        'confusion_matrix': confusion_matrix(y, predictions).tolist(),
+        'accuracy': float(accuracy_score(y, predictions))
+    }
 
-if __name__ == "__main__":
-    print("Prediction:", classify_iris())
+if __name__ == '__main__':
+    results = classify_iris()
+    print(f"Confusion Matrix:\n{results['confusion_matrix']}")
+    print(f"Accuracy: {results['accuracy']:.2f}")
