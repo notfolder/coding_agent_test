@@ -1,7 +1,7 @@
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, classification_report
 
 def train_iris_classifier():
     iris = load_iris()
@@ -9,12 +9,17 @@ def train_iris_classifier():
     model = LogisticRegression()
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)
-    return accuracy_score(y_test, predictions)
+    return {
+        'accuracy': accuracy_score(y_test, predictions),
+        'classification_report': classification_report(y_test, predictions)
+    }
 
 
 def main():
-    accuracy = train_iris_classifier()
-    print(f"Iris classifier accuracy: {accuracy:.2f}")
+    results = train_iris_classifier()
+    print(f"Iris classifier accuracy: {results['accuracy']:.2f}")
+    print("Classification report:")
+    print(results['classification_report'])
 
 if __name__ == "__main__":
     main()
